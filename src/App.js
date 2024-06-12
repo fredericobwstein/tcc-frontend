@@ -12,6 +12,10 @@ function App() {
   const [animeInfo, setAnimeInfo] = useState();
   const [myAnimeList, setMyAnimeList] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [email, setLogin] = useState('');
+  const [senha, setPassword] = useState('');
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
 
   const addTo = (anime) => {
     const index = myAnimeList.findIndex((myanime) => {
@@ -22,6 +26,41 @@ function App() {
       setMyAnimeList(newArray);
     }
   };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try{
+    const response = await fetch('https://localhost:7281/api/Usuario/Login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        senha: senha,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('token', data.token); 
+      setUser(data); 
+    } else {
+      const errorData = await response.json();
+      setError('Login falhou: ' + (errorData.message));
+    }
+  } catch (error) {
+    setError('Erro de rede: ' + error.message);
+  }
+ }
+
+ const handleLogout = () => {
+  localStorage.removeItem('token');
+  setUser(null); 
+  setLogin(''); 
+  setPassword(''); 
+};
 
   const removeFrom = (anime) => {
     const newArray = myAnimeList.filter((myanime) => {
@@ -60,6 +99,31 @@ function App() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+        {user ? (
+        <div className="user-box">
+          <h2>Olá, {user.nome}!</h2>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <div className="login-container">
+          <form onSubmit={handleLogin} className="login-form">
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setLogin(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Entrar</button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+          </form>
+        </div>
+      )}
       </div>
 
       <div className="container">

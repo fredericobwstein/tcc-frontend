@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from 'react-modal';
 
 export const AnimeModal = ({ isOpen, onRequestClose, anime }) => {
-  // Adiciona uma verificação de segurança
   if (!anime) return null;
 
   const { 
