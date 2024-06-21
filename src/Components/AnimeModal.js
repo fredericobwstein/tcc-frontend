@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-export const AnimeModal = ({ isOpen, onRequestClose, anime }) => {
+export const AnimeModal = ({ isOpen, onRequestClose, anime}) => {
   if (!anime) return null;
 
   const { 
@@ -15,8 +15,8 @@ export const AnimeModal = ({ isOpen, onRequestClose, anime }) => {
     members,
     status,
     rating,
-    duration 
-  } = anime;
+    duration
+    } = anime;
 
   return (
     <Modal

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './Components/style.css';
-import { AnimeList } from "./Components/AnimeList";
+import { AnimeListDefault } from "./Components/AnimeListDefault";
+import { AnimeListAction } from "./Components/AnimeListAction";
+import { AnimeListRomance } from "./Components/AnimeListRomance";
 import { AddToList } from "./Components/AddToList";
 import { RemoveFromList } from "./Components/RemoveFromList";
 import { AnimeModal } from "./Components/AnimeModal";
@@ -9,6 +11,8 @@ import { AnimeListColumn } from "./Components/AnimeListColumn";
 function App() {
   const [search, setSearch] = useState('One Piece');
   const [animeData, setAnimeData] = useState();
+  const [animeDataAction, setAnimeDataAction] = useState();
+  const [animeDataRomance, setAnimeDataRomance] = useState();
   const [animeInfo, setAnimeInfo] = useState();
   const [myAnimeList, setMyAnimeList] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -47,11 +51,11 @@ function App() {
       localStorage.setItem('token', data.token); 
       setUser(data); 
     } else {
-      const errorData = await response.json();
-      setError('Login falhou: ' + (errorData.message));
+      const errorData = await response.text();
+      setError('Email ou senha inválidos: ');
     }
   } catch (error) {
-    setError('Erro de rede: ' + error.message);
+    setError('Erro de rede: ');
   }
  }
 
@@ -63,17 +67,58 @@ function App() {
 };
 
   const removeFrom = (anime) => {
-    const newArray = myAnimeList.filter((myanime) => {
+    const newArray = myAnimeList.filter((myanime) => {  
       return myanime.mal_id !== anime.mal_id;
     });
     setMyAnimeList(newArray);
   };
 
   const getData = async () => {
-    const res = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&limit=20`);
+    const res = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&limit=25`);
     const resData = await res.json();
-    setAnimeData(resData.data);
+    const filteredData = resData.data.filter(anime => 
+    !anime.genres.some(genre => genre.name.toLowerCase() === 'hentai')
+    ); 
+    if(resData.data.length > 0) {
+      setAnimeData(filteredData);
+    } else{
+      setAnimeData([])
+    } 
   };
+
+  const getDataAction = async () => {
+    const res = await fetch(`https://api.jikan.moe/v4/anime?limit=25`);
+    const resData = await res.json();
+    const filteredData = resData.data.filter(anime =>
+      anime.genres.some(genre => genre.name === "Action")
+    );
+    if (resData.data.length > 0) {
+      setAnimeDataAction(filteredData);
+    } else {
+      setAnimeDataAction([]);
+    }
+  };
+
+  const getDataRomance = async () => {
+    const res = await fetch(`https://api.jikan.moe/v4/anime?limit=25`);
+    const resData = await res.json();
+    const filteredData = resData.data.filter(anime => 
+      anime.genres.some(genre => genre.name === "Romance")
+    );
+    if(resData.data.length > 0) {
+      setAnimeDataRomance(filteredData);
+    } else {
+      setAnimeDataRomance ([]);
+    }
+  }
+
+useEffect(() => {
+  getDataRomance();
+}, []);
+
+  useEffect(() => {
+    getDataAction();
+  },[]);
 
   useEffect(() => {
     getData();
@@ -140,7 +185,7 @@ function App() {
         <div className="anime-row">
           <h2 className="text-heading">Obras</h2>
           <div className="row">
-            <AnimeList
+            <AnimeListDefault
               animelist={animeData}
               setAnimeInfo={setAnimeInfo}
               animeComponent={AddToList}
@@ -148,10 +193,10 @@ function App() {
               openModal={openModal} 
             />
           </div>
-          <h2 className="text-heading">Populares</h2>
+          <h2 className="text-heading">Ação</h2>
           <div className="row">
-            <AnimeList
-              animelist={animeData}
+              <AnimeListAction
+              animelistAction={animeDataAction}
               setAnimeInfo={setAnimeInfo}
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
@@ -160,13 +205,13 @@ function App() {
           </div>
           <h2 className="text-heading">Drama</h2>
           <div className="row">
-            <AnimeList
-              animelist={animeData}
+              <AnimeListRomance
+              animelistRomance={animeDataRomance}
               setAnimeInfo={setAnimeInfo}
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal} 
-            />
+              />
           </div>
         </div>
       </div>
@@ -176,6 +221,7 @@ function App() {
         onRequestClose={closeModal} 
         anime={animeInfo} 
       />
+
     </>
   );
 }
