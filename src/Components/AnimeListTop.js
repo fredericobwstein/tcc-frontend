@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const AnimeListRomance = ({ animelistRomance, setAnimeInfo, animeComponent, handleList, openModal }) => {
+export const AnimeListTop = ({ animelistTop, setAnimeInfo, animeComponent, handleList, openModal }) => {
   const AddToList = animeComponent;
   return (
     <>
       {
-        animelistRomance ? (
-            animelistRomance.map((anime, index) => {
+        animelistTop ? (
+          animelistTop.map((anime, index) => {
             return (
               <div className="card" key={index} onClick={() => {
                   setAnimeInfo(anime);
@@ -26,7 +26,7 @@ export const AnimeListRomance = ({ animelistRomance, setAnimeInfo, animeComponen
               </div>
             );
           })
-        ) : "Not Found Romance"
+        ) : "Not Found Top Animes"
       }
     </>
   );
