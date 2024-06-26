@@ -5,12 +5,12 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 body{
-    background-color: #F9F6EE;
+  background-color: rgba(56, 56, 56);
 }
 .header {
   width: 100%;
   height: 80px;
-  background-color: #41403d;
+  background-color: rgba(56, 56, 56);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,12 +33,13 @@ body{
     width: 100%;
     margin: 100px auto;
     display: flex;
+    background-color: #F9F6EE;
 }
 .anime-info-column{
   width: 320px;
   height: 100%;
   margin: 80px auto;
-  background-color: #41403d;
+  background-color: rgba(56, 56, 56);
   position: fixed;
   left: 0;
   top: 0;
@@ -68,14 +69,14 @@ body{
     overflow: hidden;
     position: relative;
 }
-.card-column{
-  width: 320px;
-  height: 80px;
-  padding: 0 0 1rem 0;
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
-  text-align: center;
-  overflow: hidden;
-  position: relative;
+.card-column {
+    width: 93%;
+    padding: 10px;
+    height: 50px;
+    margin-bottom: 60px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
 }
 .text-heading-column{
   margin-left: 7rem;
@@ -86,16 +87,16 @@ body{
     width: 100%;
     height: 80%;
 }
-.overlay{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 0;
-    padding: 1rem;
-    background-color: rgba(212,187,163,0.9);
-    text-align: justify;
-    opacity: 0;
-    transition: 0.5s;
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 85%;
+  height: 0;
+  padding: 1rem;
+  background-color: rgba(56, 56, 56);
+  text-align: justify;
+  opacity: 0;
+  transition: 0.5s;
 }
 .anime-info:hover .overlay{
     opacity: 1;
@@ -105,7 +106,7 @@ body{
     position: absolute;
     bottom: 20px;
     padding: 0.5rem;
-    background-color: rgb(211,177,145);
+    background-color: rgb(56, 56, 56);
     font-size: 1rem;
 }
 .Modal {
@@ -260,4 +261,14 @@ body{
       margin-left: 0;
       text-align: center;
     }
+  }
+
+  .no-anime-added{
+    margin: 1rem 0;
+    text-align: center;
+    color:#030303
+  }
+
+  .title{
+    color:#030303
   }
