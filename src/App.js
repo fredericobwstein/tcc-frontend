@@ -139,7 +139,7 @@ function App() {
   useEffect(() => {
     const debouncedGet = _.debounce(() => {
       getDataAction();
-    }, 300);
+    }, 200);
     debouncedGet();
     return () => {
       debouncedGet.cancel();
@@ -149,7 +149,7 @@ function App() {
   useEffect(() => {
     const debouncedGet = _.debounce(() => {
       getData();
-    }, 300);
+    }, 200);
     debouncedGet();
     return () => {
       debouncedGet.cancel();

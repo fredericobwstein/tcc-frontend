@@ -15,7 +15,7 @@ body{
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  color: white;
+  color: rgba(56, 56, 56);
   position: fixed;
   top: 0;
   z-index: 12;
@@ -30,10 +30,10 @@ body{
   padding: 0 1rem;
 }
 .container{
-    width: 100%;
+    width: 133%;
     margin: 100px auto;
     display: flex;
-    background-color: #F9F6EE;
+    background-color: rgb(228, 224, 224);
 }
 .anime-info-column{
   width: 320px;
