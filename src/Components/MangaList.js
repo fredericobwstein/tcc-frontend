@@ -1,6 +1,7 @@
 import React from 'react';
+import { addToWishlist } from './addToWishlist';
 
-export const MangaList = ({ mangalist, setMangaInfo, animeComponent, handleList, openModal }) => {
+export const MangaList = ({ mangalist, setMangaInfo, animeComponent, handleList, openModal, userId}) => {
   const AddToList = animeComponent;
   return (
     <>
@@ -20,8 +21,12 @@ export const MangaList = ({ mangalist, setMangaInfo, animeComponent, handleList,
                     e.stopPropagation(); 
                     handleList(anime);
                   }}>
-                    <AddToList />
-                  </div>
+                    <AddToList
+                    animeContent ={anime.mal_id}
+                    userId = {userId}
+                    addToWishlist = {addToWishlist}
+                    />
+                    </div>
                 </div>
               </div>
             );

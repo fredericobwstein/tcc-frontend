@@ -1,32 +1,24 @@
 import React from 'react';
 
-export const AnimeListColumn = ({ animeListColumn, setAnimeInfo, animeComponent, handleList, openModal }) => {
-  const AddToList = animeComponent;
-  return (
-    <>
-      {
-        animeListColumn && animeListColumn.length > 0 ? (
-          animeListColumn.map((anime, index) => (
-            <div className="card-column" key={index} onClick={() => {
-                setAnimeInfo(anime);
-                openModal(anime); 
-              }}
-            >
-              <div className="anime-info">
-                <h4>{anime.title}</h4>
-                <div className="overlay" onClick={(e) => {
-                  e.stopPropagation(); 
-                  handleList(anime);
-                }}>
-                  <AddToList />
+const AnimeListColumn = ({ animeListColumn, setAnimeInfo, animeComponent, handleList, openModal, userId, removeWishlist}) => {
+    const RemoveFromList = animeComponent;
+
+    return (
+        <div className="anime-list-column">
+            {animeListColumn.map((anime, index) => (
+                <div key={index} className="anime-item">
+                    <div className="anime-details" onClick={() => openModal(anime)}>
+                        <h3>{anime.title}</h3>
+                    </div>
+                    <button className="minimal-button remove-button" onClick={() => {
+                        removeWishlist(userId, anime.mal_id);
+                        handleList(anime);
+                    }}>❌</button>
+                    <RemoveFromList />
                 </div>
-              </div>
-            </div>
-          ))
-        ) : <h4 className="no-anime-added">Nenhum anime adicionado.</h4>
-      }
-    </>
-  );
+            ))}
+        </div>
+    );
 };
 
 export default AnimeListColumn;

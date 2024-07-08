@@ -30,7 +30,7 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
         } else {
           const errorText = await response.text();
           const match = errorText.match(/^(.+?) at/);
-          const errorMessage = match ? match[1].trim() : "Ocorreu um erro durante o registro. Tente novamente.";
+          const errorMessage = match ? match[1].trim() : "Este e-mail já foi cadastrado.";
           setError(errorMessage);
         }
     } catch (error) {

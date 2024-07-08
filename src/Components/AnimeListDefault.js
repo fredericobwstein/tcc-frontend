@@ -1,6 +1,8 @@
 import React from 'react';
+import { addToWishlist } from './addToWishlist';
 
-export const AnimeListDefault = ({ animelist, setAnimeInfo, animeComponent, handleList, openModal }) => {
+
+export const AnimeListDefault = ({ animelist, setAnimeInfo, animeComponent, handleList, openModal, userId}) => {
   const AddToList = animeComponent;
   return (
     <>
@@ -20,13 +22,17 @@ export const AnimeListDefault = ({ animelist, setAnimeInfo, animeComponent, hand
                     e.stopPropagation(); 
                     handleList(anime);
                   }}>
-                    <AddToList />
+                    <AddToList
+                    animeContent ={anime.mal_id}
+                    userId = {userId}
+                    addToWishlist = {addToWishlist}
+                    />
                   </div>
                 </div>
               </div>
             );
           })
-        ) : "Not Found"
+        ) : "Search for something"
       }
     </>
   );

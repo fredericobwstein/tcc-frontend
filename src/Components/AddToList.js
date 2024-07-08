@@ -1,11 +1,11 @@
 import React from 'react'
 
-export const AddToList = () => {
+export const AddToList = ({addToWishlist, userId, animeContent, showErrorModal}) => {
   return (
     <>
-      <div className="mylist">
+      <button className="mylist" onClick={() => addToWishlist(userId, animeContent, showErrorModal)}>
         <p>Adicionar à lista</p>
-      </div>
+      </button>
     </>
   )
 }

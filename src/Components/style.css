@@ -7,6 +7,11 @@
 body{
   background-color: rgba(56, 56, 56);
 }
+
+.user-box{
+  color: rgb(0, 0, 0);
+}
+
 .header {
   width: 100%;
   height: 80px;
@@ -272,3 +277,49 @@ body{
   .title{
     color:#030303
   }
+
+  .minimal-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.anime-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.anime-details {
+    flex: 1;
+    cursor: pointer;
+}
+
+.error-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.error-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}

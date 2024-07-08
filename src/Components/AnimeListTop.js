@@ -1,6 +1,7 @@
 import React from 'react';
+import { addToWishlist } from './addToWishlist';
 
-export const AnimeListTop = ({ animelistTop, setAnimeInfo, animeComponent, handleList, openModal }) => {
+export const AnimeListTop = ({ animelistTop, setAnimeInfo, animeComponent, handleList, openModal, userId}) => {
   const AddToList = animeComponent;
   return (
     <>
@@ -20,8 +21,12 @@ export const AnimeListTop = ({ animelistTop, setAnimeInfo, animeComponent, handl
                     e.stopPropagation(); 
                     handleList(anime);
                   }}>
-                    <AddToList />
-                  </div>
+                    <AddToList
+                    animeContent ={anime.mal_id}
+                    userId = {userId}
+                    addToWishlist = {addToWishlist}
+                    />    
+                    </div>
                 </div>
               </div>
             );

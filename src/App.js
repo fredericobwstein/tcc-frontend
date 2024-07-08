@@ -5,10 +5,14 @@ import { AnimeListAction } from "./Components/AnimeListAction";
 import { AnimeListTop } from "./Components/AnimeListTop";
 import { MangaList } from "./Components/MangaList";
 import { AddToList } from "./Components/AddToList";
-import { RegisterModal } from "./Components/RegisterModal";  
+import { RegisterModal } from "./Components/RegisterModal";
 import { RemoveFromList } from "./Components/RemoveFromList";
 import { AnimeModal } from "./Components/AnimeModal";
-import { AnimeListColumn } from "./Components/AnimeListColumn";
+import AnimeListColumn from './Components/AnimeListColumn';
+import Login from './Components/Login';
+import UserBox from './Components/User';
+import Register from './Components/Register';
+import { removeWishlist } from './Components/deleteWishlistService';
 import _ from 'lodash';
 
 function App() {
@@ -23,9 +27,10 @@ function App() {
   const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
   const [email, setLogin] = useState('');
   const [senha, setPassword] = useState('');
-  const [nome, setNome] = useState('');
   const [user, setUser] = useState(null);
+  const [idUser, setIdUser] = useState('');
   const [error, setError] = useState('');
+  const [wishlist, setWishlist] = useState([]);
 
   const addTo = (anime) => {
     const index = myAnimeList.findIndex((myanime) => {
@@ -44,9 +49,37 @@ function App() {
     setMyAnimeList(newArray);
   };
 
+  const fetchWishlist = async (userId) => {
+    try {
+      const response = await fetch(`https://localhost:7281/api/UserWishList/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const malIds = data.map(item => item.mal_id);
+        const wishlistData = await Promise.all(malIds.map(async (malId) => {
+          const animeResponse = await fetch(`https://api.jikan.moe/v4/anime/${malId}`);
+          if (animeResponse.ok) {
+            const animeData = await animeResponse.json();
+            return animeData.data;
+          }
+          return null;
+        }));
+        setWishlist(wishlistData.filter(item => item !== null));
+      } else {
+        console.error('Failed to fetch wishlist:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching wishlist:', error);
+    }
+  };
+
   const handleUserRegister = (userData) => {
     setUser(userData);
-    closeModal(); 
+    closeModal();
   };
 
   const handleLogout = () => {
@@ -54,55 +87,50 @@ function App() {
     setUser(null);
     setLogin('');
     setPassword('');
+    setWishlist([]);
+    setIdUser([]);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch('https://localhost:7281/api/Usuario/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: email,
-          senha: senha,
-        }),
+        body: JSON.stringify({ email: email, senha: senha }),
       });
-
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         setUser(data);
+        setIdUser(data.id);
+        fetchWishlist(data.id);
       } else {
         const errorData = await response.text();
-        setError('Email ou senha inválidos: ');
+        setError('Email ou senha inválidos: ' + errorData);
       }
     } catch (error) {
-      setError('Erro de rede: ');
+      setError('Erro de rede: ' + error.message);
     }
-  }
+  };
 
   const getData = async () => {
     const res = await fetch(`https://api.jikan.moe/v4/anime?q=${search}&limit=12`);
     const resData = await res.json();
-    const filteredData = resData.data.filter(anime =>
-      !anime.genres.some(genre => genre.name.toLowerCase() === 'hentai')
-    );
+    const filteredData = resData.data.filter(anime => !anime.genres.some(genre => genre.name.toLowerCase() === 'hentai'));
     if (resData.data.length > 0) {
       setAnimeData(filteredData);
     } else {
-      setAnimeData([])
+      setAnimeData([]);
     }
   };
 
   const getDataAction = async () => {
-    const res = await fetch(`https://api.jikan.moe/v4/anime?limit=20`);
+    const res = await fetch('https://api.jikan.moe/v4/anime?limit=20');
     const resData = await res.json();
-    const filteredData = resData.data.filter(anime =>
-      anime.genres.some(genre => genre.name === "Action")
-    );
+    const filteredData = resData.data.filter(anime => anime.genres.some(genre => genre.name === "Action"));
     if (resData.data.length > 0) {
       setAnimeDataAction(filteredData);
     } else {
@@ -111,30 +139,26 @@ function App() {
   };
 
   const getDataTopAnimes = async () => {
-    const res = await fetch(`https://api.jikan.moe/v4/top/anime?limit=14`);
+    const res = await fetch('https://api.jikan.moe/v4/top/anime?limit=14');
     const resData = await res.json();
-    const filteredData = resData.data.filter(anime =>
-      anime.source === 'Manga'
-    );
+    const filteredData = resData.data.filter(anime => anime.source === 'Manga');
     if (resData.data.length > 0) {
       setAnimeDataTop(filteredData);
     } else {
       setAnimeDataTop([]);
     }
-  }
+  };
 
   const getDataManga = async () => {
-    const res = await fetch(`https://api.jikan.moe/v4/manga?limit=12`);
+    const res = await fetch('https://api.jikan.moe/v4/manga?limit=12');
     const resData = await res.json();
-    const filteredData = resData.data.filter(anime =>
-      anime.type === 'Manga'
-    );
+    const filteredData = resData.data.filter(anime => anime.type === 'Manga');
     if (resData.data.length > 0) {
       setMangaData(filteredData);
     } else {
       setMangaData([]);
     }
-  }
+  };
 
   useEffect(() => {
     const debouncedGet = _.debounce(() => {
@@ -149,7 +173,7 @@ function App() {
   useEffect(() => {
     const debouncedGet = _.debounce(() => {
       getData();
-    }, 200);
+    }, 2000);
     debouncedGet();
     return () => {
       debouncedGet.cancel();
@@ -157,12 +181,24 @@ function App() {
   }, [search]);
 
   useEffect(() => {
-      getDataManga();
-  }, []);
+    const debouncedGet = _.debounce(() => {
+    getDataManga();
+  }, 200);
+  debouncedGet();
+  return () => {
+    debouncedGet.cancel();
+  };
+}, []);
 
   useEffect(() => {
+    const debouncedGet = _.debounce(() => {
     getDataTopAnimes();
-  }, []);
+  }, 200);
+  debouncedGet();
+  return () => {
+    debouncedGet.cancel();
+  };
+}, []);
 
   const openModal = (anime) => {
     setAnimeInfo(anime);
@@ -188,53 +224,39 @@ function App() {
         <div className="search-box">
           <input
             type="search"
-            placeholder="Pesquisar obra"
+            placeholder="Search anime"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="register-form">
-        <button onClick={openRegisterModal}>Cadastre-se</button>
-        </div>
+        <Register openRegisterModal={openRegisterModal} />
         {user ? (
-          <div className="user-box">
-            <h2>Olá, {user.nome}!</h2>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
+          <UserBox user={user} handleLogout={handleLogout} />
         ) : (
-          <div className="login-container">
-            <form onSubmit={handleLogin} className="login-form">
-              <input
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setLogin(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Senha"
-                value={senha}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button type="submit">Entrar</button>
-              {error && <p style={{ color: 'red' }}>{error}</p>}
-            </form>
-          </div>
+          <Login
+            handleLogin={handleLogin}
+            email={email}
+            setLogin={setLogin}
+            senha={senha}
+            setPassword={setPassword}
+            error={error}
+          />
         )}
       </div>
 
       <div className="container">
         <div className="anime-info-column">
-          <h2 className="text-heading-column">Lista</h2>
+          <h2 className="text-heading-column">List</h2>
           <AnimeListColumn
-            animeListColumn={myAnimeList}
-            setAnimeInfo={setAnimeInfo}
+            animeListColumn={wishlist}
             animeComponent={RemoveFromList}
             handleList={(anime) => removeFrom(anime)}
             openModal={openModal}
+            userId={idUser}
+            removeWishlist={removeWishlist}
           />
         </div>
         <div className="anime-row">
-          <h2 className="text-heading">Obras</h2>
+          <h2 className="text-heading">Your search</h2>
           <div className="row">
             <AnimeListDefault
               animelist={animeData}
@@ -242,9 +264,10 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
+              userId={idUser}
             />
           </div>
-          <h2 className="text-heading">Ação</h2>
+          <h2 className="text-heading">Action</h2>
           <div className="row">
             <AnimeListAction
               animelistAction={animeDataAction}
@@ -252,9 +275,10 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
+              userId={idUser}
             />
           </div>
-          <h2 className="text-heading">Em alta</h2>
+          <h2 className="text-heading">On the rise</h2>
           <div className="row">
             <AnimeListTop
               animelistTop={animeDataTop}
@@ -262,6 +286,7 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
+              userId={idUser}
             />
           </div>
           <h2 className="text-heading">Mangas</h2>
@@ -272,6 +297,7 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
+              userId={idUser}
             />
           </div>
         </div>
@@ -288,7 +314,6 @@ function App() {
         onRequestClose={closeRegisterModal}
         onRegister={handleUserRegister}
       />
-
     </>
   );
 }
