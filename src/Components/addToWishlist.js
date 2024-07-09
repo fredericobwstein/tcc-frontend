@@ -7,7 +7,7 @@ export const addToWishlist = async (userId, malId) => {
         showErrorModal(' Você precisa estar logado para utilizar a lista de desejos.');
         return;
     }
-    const response = await fetch('https://localhost:7281/api/UserWishList', {
+    const response = await fetch(`${process.env.REACT_APP_XD}/api/UserWishList`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

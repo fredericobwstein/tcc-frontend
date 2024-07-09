@@ -51,7 +51,7 @@ function App() {
 
   const fetchWishlist = async (userId) => {
     try {
-      const response = await fetch(`https://localhost:7281/api/UserWishList/${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_XD}/api/UserWishList/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://localhost:7281/api/Usuario/Login', {
+      const response = await fetch(`${process.env.REACT_APP_XD}/api/Usuario/Login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

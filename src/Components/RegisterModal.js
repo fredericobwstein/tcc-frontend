@@ -10,7 +10,7 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
   const handleRegister = async (e) => {
     e.preventDefault();       
     try {
-        const response = await fetch('https://localhost:7281/api/Usuario/Cadastro', {
+        const response = await fetch(`${process.env.REACT_APP_XD}/api/Usuario/Cadastro`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

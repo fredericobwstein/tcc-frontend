@@ -3,7 +3,7 @@ import { showErrorModal } from './errorService';
 export const removeWishlist = async (userId, malId, id) => {
     try
     {
-        const response = await fetch('https://localhost:7281/api/UserWishList', {
+        const response = await fetch(`${process.env.REACT_APP_XD}/api/UserWishList`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
