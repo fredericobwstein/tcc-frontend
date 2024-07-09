@@ -109,10 +109,10 @@ function App() {
         fetchWishlist(data.id);
       } else {
         const errorData = await response.text();
-        setError('Email ou senha inválidos: ' + errorData);
+        setError(errorData);
       }
     } catch (error) {
-      setError('Erro de rede: ' + error.message);
+      setError('Erro de rede');
     }
   };
 

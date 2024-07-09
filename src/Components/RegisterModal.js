@@ -34,7 +34,7 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
           setError(errorMessage);
         }
     } catch (error) {
-        setError('Erro de rede: ' + error.message);
+        setError('Erro de rede:');
     }
   };
 
