@@ -55,7 +55,7 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
         <h2>Cadastre-se</h2>
         <form onSubmit={handleRegister} className="register-form">
           <div className="form-group">
-            <label htmlFor="nome">Nome:</label>
+            <label htmlFor="nome">Name:</label>
             <input type="text" id="nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
           </div>
           <div className="form-group">
@@ -63,13 +63,13 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label htmlFor="senha">Senha:</label>
+            <label htmlFor="senha">Password:</label>
             <input type="password" id="senha" value={senha} onChange={(e) => setSenha(e.target.value)} required />
           </div>
-          <button type="submit">Registrar</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
-        <button onClick={onRequestCloseHandler} className="modal-close-button">Fechar</button>
+          <button type="submit">Register</button>
+          {error && <p style={{ color: error.includes('sucesso') ? 'green' : 'red' }}>{error}</p>}
+          </form>
+        <button onClick={onRequestCloseHandler} className="modal-close-button">Close</button>
         </div>
     </Modal>
   );

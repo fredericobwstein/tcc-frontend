@@ -89,6 +89,7 @@ function App() {
     setPassword('');
     setWishlist([]);
     setIdUser([]);
+    setError('');
   };
 
   const handleLogin = async (e) => {
