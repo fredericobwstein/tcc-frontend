@@ -11,13 +11,13 @@ export const removeWishlist = async (userId, malId, id) => {
             body: JSON.stringify({ userId, malId, id}),
         });
         if (response.ok) {
-            showErrorModal('Removido da lista com sucesso! Relogue para atualizar a lista');
+            showErrorModal('Removed from list successfully! Login again to update the list');
         } else {
-            showErrorModal('Não foi possível remover o item da lista. Por favor, tente novamente mais tarde.');
+            showErrorModal('It was not possible to remove the item from list. Please, try again later.');
         }
     }catch(error)
     {
-      showErrorModal('Erro de rede')
+      showErrorModal('Network error')
     }
 
 };

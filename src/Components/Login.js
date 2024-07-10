@@ -16,7 +16,7 @@ const Login = ({ handleLogin, email, setLogin, senha, setPassword, error }) => {
                     value={senha}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Entrar</button>
+                <button type="submit">Login</button>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
             </form>
         </div>

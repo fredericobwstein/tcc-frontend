@@ -4,7 +4,7 @@ export const addToWishlist = async (userId, malId) => {
  try
  {
     if (!userId || userId.length === 0) {
-        showErrorModal(' Você precisa estar logado para utilizar a lista de desejos.');
+        showErrorModal('To proceed using the list, you have to login.');
         return;
     }
     const response = await fetch(`${process.env.REACT_APP_XD}/api/UserWishList`, {
@@ -15,12 +15,12 @@ export const addToWishlist = async (userId, malId) => {
         body: JSON.stringify({ userId, malId }),
     });
     if (response.ok) {
-        showErrorModal('Adicionado na lista com sucesso! Relogue para atualizar a lista.');
+        showErrorModal('Successfully added on the list! Login again to update the list.');
     } else {
-        showErrorModal('Você já adicionou esse item na lista.');
+        showErrorModal('You already added this item on the list.');
     }
  } catch (error)
   {
-    showErrorModal('Erro de rede')
+    showErrorModal('Network error')
   }
 };

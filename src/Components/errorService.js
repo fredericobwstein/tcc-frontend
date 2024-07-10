@@ -5,9 +5,9 @@ export const ErrorModal = ({ isOpen, onRequestClose, message }) => (
     isOpen ? (
         <div className="error-modal">
             <div className="error-modal-content">
-                <h2>Aviso</h2>
+                <h2>Warning</h2>
                 <p>{message}</p>
-                <button onClick={onRequestClose}>Fechar</button>
+                <button onClick={onRequestClose}>Close</button>
             </div>
         </div>
     ) : null

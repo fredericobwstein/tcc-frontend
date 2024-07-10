@@ -26,15 +26,15 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
           const data = await response.text();
           localStorage.setItem('token', data.token);
           onRegister(data); 
-          setError('Registro concluído com sucesso!'); 
+          setError('Register successfully!'); 
         } else {
           const errorText = await response.text();
           const match = errorText.match(/^(.+?) at/);
-          const errorMessage = match ? match[1].trim() : "Este e-mail já foi cadastrado.";
+          const errorMessage = match ? match[1].trim() : "This email is already registered.";
           setError(errorMessage);
         }
     } catch (error) {
-        setError('Erro de rede:');
+        setError('Network error');
     }
   };
 
@@ -47,7 +47,7 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Cadastro"
+      contentLabel="Register"
       className="Modal"
       overlayClassName="Overlay"
     >
