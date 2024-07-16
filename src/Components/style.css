@@ -92,7 +92,7 @@ html,body{
   width: 85%;
   height: 0;
   padding: 1rem;
-  background-color: rgb(156, 57, 57);
+  background-color: rgb(54, 50, 50);
   text-align: justify;
   opacity: 0;
   transition: 0.5s;
@@ -101,12 +101,21 @@ html,body{
     opacity: 1;
     height: 90%;
 }
-.mylist{
-    position: absolute;
-    bottom: 20px;
-    padding: 0.5rem;
-    background-color: rgb(56, 56, 56);
-    font-size: 1rem;
+.mylist {
+  position: absolute;
+  bottom: 10px;
+  padding: 3%;
+  background-color: rgb(122, 121, 121); 
+  color: black; 
+  border-radius: 20%;
+  height: 40px; 
+  display: flex;
+  cursor: pointer;
+  transition: background-color 0.3s; 
+}
+
+.mylist:hover {
+  background-color: rgb(199, 194, 194); 
 }
 .Modal {
   max-width: 80%;

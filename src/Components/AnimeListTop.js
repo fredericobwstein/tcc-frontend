@@ -18,7 +18,7 @@ export const AnimeListTop = ({ animelistTop, setAnimeInfo, animeComponent, handl
                 <img src={anime.images.jpg.large_image_url} alt="animeImage" className="card-img-top"/>
                 <div className="card-body">
                   <h5 className="card-title">{anime.title}</h5>
-                  <div className="overlay" onClick={(e) => {
+                  <div onClick={(e) => {
                     e.stopPropagation(); 
                     handleList(anime);
                   }}>

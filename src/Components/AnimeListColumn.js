@@ -14,7 +14,6 @@ const AnimeListColumn = ({ animeListColumn, setAnimeInfo, animeComponent, handle
                         removeWishlist(userId, anime.mal_id);
                         handleList(anime);
                     }}>❌</button>
-                    <RemoveFromList />
                 </div>
             ))}
         </div>
