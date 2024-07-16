@@ -67,7 +67,8 @@ export const RegisterModal = ({ isOpen, onRequestClose, onRegister }) => {
             <input type="password" id="senha" value={senha} onChange={(e) => setSenha(e.target.value)} required />
           </div>
           <button type="submit">Register</button>
-          {error && <p style={{ color: error.includes('sucess') ? 'green' : 'red' }}>{error}</p>}
+          {error &&             <p className={error === 'Register successfully!' ? 'success-message' : 'error-message'}>
+          {error}</p>}
           </form>
         <button onClick={onRequestCloseHandler} className="modal-close-button">Close</button>
         </div>

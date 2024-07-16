@@ -113,6 +113,16 @@ html,body{
   cursor: pointer;
   transition: background-color 0.3s; 
 }
+.success-message {
+  color: green;
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
 
 .mylist:hover {
   background-color: rgb(199, 194, 194); 
