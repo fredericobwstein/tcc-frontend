@@ -39,20 +39,27 @@ html,body{
 }
 .container{
     background-color: rgb(255, 255, 255);
+    display: flex;
+    min-height: 100vh;
+    padding: 0;
+
 }
 .anime-info-column{
   width: 20%;
-  height: 50%;
+  min-height: 100vh;
   padding: 0;
   min-height: 100vh;
+  box-sizing: border-box;
   background-color: rgb(255, 255, 255);
-  position: fixed;
   left: 0;
 }
 .anime-row{
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
+    width: 80%;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 .anime-row .text-heading{
     margin-left: 20rem;
