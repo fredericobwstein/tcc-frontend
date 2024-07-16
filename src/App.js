@@ -219,32 +219,38 @@ function App() {
   };
 
   return (
-    <>
-      <div className="header">
-        <h1 className="title">Animecatalog</h1>
-        <div className="search-box">
+    <><nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <a className="navbar-brand" href="#">Animecatalog</a>
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className="collapse navbar-collapse" id="navbarContent">
+        <form className="form-inline my-2 my-lg-0 mx-auto">
           <input
+            className="form-control mr-sm-2"
             type="search"
             placeholder="Search anime"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <Register openRegisterModal={openRegisterModal} />
+            onChange={(e) => setSearch(e.target.value)} />
+        </form>
+        <button className="btn btn-outline-primary my-2 my-sm-0" type="button" onClick={openRegisterModal}>Register</button>
         {user ? (
-          <UserBox user={user} handleLogout={handleLogout} />
+          <div className="form-inline my-2 my-lg-0">
+            <UserBox user={user} handleLogout={handleLogout} />
+          </div>
         ) : (
-          <Login
-            handleLogin={handleLogin}
-            email={email}
-            setLogin={setLogin}
-            senha={senha}
-            setPassword={setPassword}
-            error={error}
-          />
+          <div className="form-inline my-2 my-lg-0">
+            <Login
+              handleLogin={handleLogin}
+              email={email}
+              setLogin={setLogin}
+              senha={senha}
+              setPassword={setPassword}
+              error={error} />
+          </div>
         )}
       </div>
-
-      <div className="container">
+    </nav><div className="container">
         <div className="anime-info-column">
           <h2 className="text-heading-column">List</h2>
           <AnimeListColumn
@@ -253,8 +259,7 @@ function App() {
             handleList={(anime) => removeFrom(anime)}
             openModal={openModal}
             userId={idUser}
-            removeWishlist={removeWishlist}
-          />
+            removeWishlist={removeWishlist} />
         </div>
         <div className="anime-row">
           <h2 className="text-heading">Your search</h2>
@@ -265,8 +270,7 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
-              userId={idUser}
-            />
+              userId={idUser} />
           </div>
           <h2 className="text-heading">Action</h2>
           <div className="row">
@@ -276,8 +280,7 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
-              userId={idUser}
-            />
+              userId={idUser} />
           </div>
           <h2 className="text-heading">On the rise</h2>
           <div className="row">
@@ -287,8 +290,7 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
-              userId={idUser}
-            />
+              userId={idUser} />
           </div>
           <h2 className="text-heading">Mangas</h2>
           <div className="row">
@@ -298,24 +300,16 @@ function App() {
               animeComponent={AddToList}
               handleList={(anime) => addTo(anime)}
               openModal={openModal}
-              userId={idUser}
-            />
+              userId={idUser} />
           </div>
         </div>
-      </div>
-
-      <AnimeModal
+      </div><AnimeModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        anime={animeInfo}
-      />
-
-      <RegisterModal
+        anime={animeInfo} /><RegisterModal
         isOpen={isRegisterModalOpen}
         onRequestClose={closeRegisterModal}
-        onRegister={handleUserRegister}
-      />
-    </>
+        onRegister={handleUserRegister} /></>
   );
 }
 
